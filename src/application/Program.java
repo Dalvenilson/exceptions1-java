@@ -1,11 +1,11 @@
 package application;
 
-// Essa é a primeira versão ruim! será feito em 3 partes!
+// Essa é a segunda versão ruim! será feito em 3 partes!
 
-//Lembrando serão 3 versões, essa é a 1 primeira super ruim
-// pois não estamos respeitando o principio do pertencimento
-// ou seja, tem muita coisa que não era para ser implementado direto aqui
-// e sim na classe Reservation
+//Lembrando serão 3 versões, essa é a 2 parte melhorou mais continua ruim
+// aqui já implementamos a logica direto na classe reservation
+// porém estamos trantando exceções com String, o que não é muito bom
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,22 +43,16 @@ public class Program {
 			System.out.print("Check-out data (dd/MM/yyyy): ");
 			checkout = sdf.parse(sc.next());
 			
-			// fazendo um tratamento para que o programa não aceite datas passadas, ex: estamos em 2026 e ele aceite 2015 etc..
-			Date now = new Date();
-			if(checkin.before(now) || checkout.before(now)){
-				System.out.println("Error in resevation: Reservation dates for updates must be future");
-			}
-			else if(!checkout.after(checkin)){
-				System.out.println("Error in resevation: Check-out date must be after check-in date");
+
+			String error = reservation.updateDates(checkin,checkout);
+			if(error != null){
+				System.out.println(error);
 			}
 			else {
-				reservation.updateDates(checkin,checkout);
 				System.out.println(reservation);
 			}
-			
+				
 		}
-		
-
 		
 		
 		sc.close();
