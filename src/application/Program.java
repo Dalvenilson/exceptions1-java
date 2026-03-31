@@ -1,9 +1,67 @@
 package application;
 
+// Essa é a primeira versão ruim! será feito em 3 partes!
+
+//Lembrando serão 3 versões, essa é a 1 primeira super ruim
+// pois não estamos respeitando o principio do pertencimento
+// ou seja, tem muita coisa que não era para ser implementado direto aqui
+// e sim na classe Reservation
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+import model.entities.Reservation;
+
 public class Program {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws ParseException {
+		
+		Scanner sc = new Scanner(System.in);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		System.out.print("Room number: ");
+		int number = sc.nextInt();
+		
+		System.out.print("Check-in data (dd/MM/yyyy): ");
+		Date checkin = sdf.parse(sc.next());
+		System.out.print("Check-out data (dd/MM/yyyy): ");
+		Date checkout = sdf.parse(sc.next());
+		
+		if(!checkout.after(checkin)){
+			System.out.println("Error in resevation: Check-out date must be after check-in date");
+		}
+		else {
+			Reservation reservation = new Reservation(number,checkin,checkout);
+			System.out.println(reservation);
+			
+			System.out.println();
+			System.out.println("Enter data to update the reservation: ");
+			System.out.print("Check-in data (dd/MM/yyyy): ");
+			checkin = sdf.parse(sc.next());
+			System.out.print("Check-out data (dd/MM/yyyy): ");
+			checkout = sdf.parse(sc.next());
+			
+			// fazendo um tratamento para que o programa não aceite datas passadas, ex: estamos em 2026 e ele aceite 2015 etc..
+			Date now = new Date();
+			if(checkin.before(now) || checkout.before(now)){
+				System.out.println("Error in resevation: Reservation dates for updates must be future");
+			}
+			else if(!checkout.after(checkin)){
+				System.out.println("Error in resevation: Check-out date must be after check-in date");
+			}
+			else {
+				reservation.updateDates(checkin,checkout);
+				System.out.println(reservation);
+			}
+			
+		}
+		
+
+		
+		
+		sc.close();
 
 	}
 
